@@ -444,28 +444,28 @@ for i in range(len(all_predicted_labels)):
     print('======================================')
 
 
-# # 生成固定的噪声和标签
-# saved_noise = torch.randn(61, 3, 128, 128).to(device)
-# fixed_y = torch.tensor([[i] for i in all_predicted_labels]).flatten().to(device)
-#
-#
-# with torch.no_grad():
-#     for i, t in tqdm(enumerate(noise_scheduler.timesteps)):
-#         residual = net(saved_noise, t, fixed_y)
-#         saved_noise = noise_scheduler.step(residual, t, saved_noise).prev_sample
-#
-#
-# # 确保输出目录存在
-# output_dir = './generated_images1/'
-# os.makedirs(output_dir, exist_ok=True)
-#
-# # 确保生成的图像张量在合适的范围内
-# def denormalize(image_tensor, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
-#     """Denormalize a tensor using the given mean and std."""
-#     mean = torch.tensor(mean).view(-1, 1, 1).to(image_tensor.device)
-#     std = torch.tensor(std).view(-1, 1, 1).to(image_tensor.device)
-#     return image_tensor * std + mean
-#
+# 生成固定的噪声和标签
+saved_noise = torch.randn(61, 3, 128, 128).to(device)
+fixed_y = torch.tensor([[i] for i in all_predicted_labels]).flatten().to(device)
+
+
+with torch.no_grad():
+    for i, t in tqdm(enumerate(noise_scheduler.timesteps)):
+        residual = net(saved_noise, t, fixed_y)
+        saved_noise = noise_scheduler.step(residual, t, saved_noise).prev_sample
+
+
+# 确保输出目录存在
+output_dir = './generated_images1_1_3/'
+os.makedirs(output_dir, exist_ok=True)
+
+# 确保生成的图像张量在合适的范围内
+def denormalize(image_tensor, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
+    """Denormalize a tensor using the given mean and std."""
+    mean = torch.tensor(mean).view(-1, 1, 1).to(image_tensor.device)
+    std = torch.tensor(std).view(-1, 1, 1).to(image_tensor.device)
+    return image_tensor * std + mean
+
 # # 使用 torchvision 的 save_image 函数保存生成的图像
 # for i in range(saved_noise.size(0)):
 #     print(i)
@@ -475,7 +475,19 @@ for i in range(len(all_predicted_labels)):
 #     print(img)
 #     print('===================')
 #     save_image(img, os.path.join(output_dir, f'generated_{i}_torchvision.png'), normalize=True)
-#
+
+# 定义反归一化函数
+def denormalize(image_tensor):
+    """假设原 transform 是 Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])"""
+    return image_tensor * 0.5 + 0.5  # 直接还原到 [0, 1]
+
+# 反归一化 & 保存图像
+for i in range(saved_noise.size(0)):
+    img = saved_noise[i].cpu()
+    img = denormalize(img)  # 回到 [0, 1]
+    img = torch.clamp(img, 0, 1)  # 确保不会溢出
+    save_image(img, os.path.join(output_dir, f'generated_{i}.png'))
+
 # word_to_label = {
 #     "my": 8,
 #     "dad": 0,
