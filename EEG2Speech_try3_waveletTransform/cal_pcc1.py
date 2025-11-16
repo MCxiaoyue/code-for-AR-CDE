@@ -49,7 +49,7 @@ def duibi(img_path1, img_path2, i):
 
     # img1 = cv2.resize(img1, (256, 256))
     # 在调用duibi函数之前先对img2进行亮度调整
-    img2 = adjust_brightness(img2, img1)
+    # img2 = adjust_brightness(img2, img1)
 
     # 确保图像被正确读取
     if img1 is None or img2 is None:
@@ -85,7 +85,7 @@ for i in range(0, 61):
     # 示例用法
     ssim_score = duibi(
         "./results/Recon_"+str(i)+".png",
-        "./results/Recon_"+str(i)+"_.png",
+        "./results/1_3/Recon_"+str(i)+"_.png",
         i)
     pcc_values.append(ssim_score)
     flag += ssim_score

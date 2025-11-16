@@ -17,7 +17,7 @@ for i in range(0, 61, 1):
 
     try:
         mcd_value = mcd_toolbox.calculate_mcd("./results/" + str(i) + ".wav",
-                                              "./results/comparison_results/" + str(i) + "_.wav")
+                                              "./results/1_3/" + str(i) + "_.wav")
         print(i)
         print("MCD Value:", mcd_value)
         print('==============================')

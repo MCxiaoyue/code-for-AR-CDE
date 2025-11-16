@@ -6,6 +6,9 @@ import os
 
 
 def adjust_brightness(src_img, target_img):
+    # print(src_img.shape)
+    # print(target_img.shape)
+    # print('+++++++++++++++++++++++++++++++++')
     """根据目标图片调整源图片的亮度"""
     # 将图像转换为浮点类型以避免溢出
     src_img_float = src_img.astype(np.float32)
@@ -38,6 +41,8 @@ def check_color_space(image, expected_color_space='BGR'):
         return False
 
 def duibi(img_path1, img_path2, i, save_path):
+    print(img_path2)
+    # print(1111111111111111)
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
@@ -48,12 +53,12 @@ def duibi(img_path1, img_path2, i, save_path):
     # print(img_path1)
     # print(img_path2)
     # 在调用duibi函数之前先对img2进行亮度调整
-    img2 = adjust_brightness(img2, img1)
+    # img2 = adjust_brightness(img2, img1)
     # 如果提供了保存路径和文件名，则保存调整后的图像
 
     if save_path and img_path2:
-        save_file_path = os.path.join(save_path, img_path2.split('/')[2].split('.')[0]+str("__")+".png")
-        print(save_file_path)
+        save_file_path = os.path.join(save_path, img_path2.split('/')[3].split('.')[0]+str("__")+".png")
+        # print(save_file_path)
         cv2.imwrite(save_file_path, img2)
 
     # img1 = cv2.resize(img1, (256, 256))
@@ -92,8 +97,8 @@ def duibi(img_path1, img_path2, i, save_path):
     plt.imshow(pixel_diff, cmap='gray')
     plt.title(f'Pixel Difference\nSSIM Score: {ssim_score:.5f}')
 
-    # 保存比较结果
-    plt.savefig(os.path.join(save_path, f"{i}.jpg"))
+    # # 保存比较结果
+    # plt.savefig(os.path.join(save_path, f"{i}.jpg"))
 
     print(ssim_score)
 
@@ -114,9 +119,9 @@ for i in range(0, 61):
     # 示例用法
     ssim_score = duibi(
         "./results/Recon_"+str(i)+".png",
-        "./results/Recon_"+str(i)+"_.png",
+        "./results/1_3/Recon_"+str(i)+"_.png",
         i,
-        "./results/comparison_results")
+        "./results/1_3/comparison_results")
     ssim_values.append(ssim_score)
     flag += ssim_score
 
