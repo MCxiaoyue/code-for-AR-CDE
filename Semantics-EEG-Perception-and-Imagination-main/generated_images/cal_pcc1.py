@@ -81,7 +81,7 @@ sum = 0
 # 存储所有PCC值的列表
 pcc_values = []
 
-subject = '19'
+subject = '19_2'
 
 for i in range(0, 10):
     # 示例用法

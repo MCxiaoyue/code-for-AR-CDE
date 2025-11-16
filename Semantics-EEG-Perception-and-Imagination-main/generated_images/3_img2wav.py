@@ -189,19 +189,19 @@ index = 0
 subject = "19"
 
 for name in file_names:
-    # input_image = Image.open("./orign_pic/B_" + str(name) + ".png")
-    # input_image = Image.open("./"+subject+"/generated_"+str(index)+"_torchvision.png")
-    input_image = Image.open("./results/"+subject+"/Recon_" + str(index) + "___.png")
+    input_image = Image.open("./orign_pic/B_" + str(name) + ".png")
+    # input_image = Image.open("./"+subject+"_2/generated_"+str(index)+".png")
+    # input_image = Image.open("./results/"+subject+"/Recon_" + str(index) + "___.png")
 
     # index += 1
     # input_image = input_image.resize((256, 256))
     # input_image = input_image.resize((50, 50))
     # 转换为8位深度图像
     output_image = input_image.convert('L')
-    output_image.save("./results/"+subject+"/Recon_"+str(index)+"_.png") # results/
+    output_image.save("./"+subject+"_2/Recon_"+str(index)+".png") # results/
 
     # 加载图像文件并转换为数组
-    mel_img = mpimg.imread("./results/"+subject+"/Recon_"+str(index)+"_.png") # results/
+    mel_img = mpimg.imread("./"+subject+"_2/Recon_"+str(index)+".png") # results/
     mel_data = mel_img.astype(float)
 
     word = 'res_'
@@ -228,7 +228,7 @@ for name in file_names:
     wav1 = melspectrogram2wav(mel_spectrogram)
 
     # 最后，将音频波形写入到.wav文件
-    sf.write("./results/"+subject+"/" + str(index) + "_.wav", wav1, sr) # results/
+    sf.write("./"+subject+"_2/" + str(index) + ".wav", wav1, sr) # results/
     index += 1
 
 

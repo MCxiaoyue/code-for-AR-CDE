@@ -10,7 +10,7 @@ count = 0
 # 存储所有MCD值的列表
 mcd_values = []
 
-subject = "19"
+subject = "19_2"
 
 for i in range(0, 10, 1):
     # 创建 Calculate_MCD 类的实例
@@ -19,7 +19,7 @@ for i in range(0, 10, 1):
 
     try:
         mcd_value = mcd_toolbox.calculate_mcd("./" + subject + "/"+str(i) + ".wav",
-                                              "./results/" + subject + "/"+str(i) + "_.wav")
+                                              "./" + subject + "/"+str(i) + "_.wav")
         print(i)
         print("MCD Value:", mcd_value)
         print('==============================')

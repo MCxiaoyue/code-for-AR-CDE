@@ -48,7 +48,7 @@ def duibi(img_path1, img_path2, i, save_path):
     # print(img_path1)
     # print(img_path2)
     # 在调用duibi函数之前先对img2进行亮度调整
-    img2 = adjust_brightness(img2, img1)
+    # img2 = adjust_brightness(img2, img1)
     # 如果提供了保存路径和文件名，则保存调整后的图像
 
     if save_path and img_path2:
@@ -110,7 +110,7 @@ flag = 0
 # 存储所有MCD值的列表
 ssim_values = []
 
-subject = '19'
+subject = '19_2'
 for i in range(0, 10):
     # 示例用法
     ssim_score = duibi(
