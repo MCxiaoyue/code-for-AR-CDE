@@ -527,22 +527,34 @@ with torch.no_grad():
         saved_noise = noise_scheduler.step(residual, t, saved_noise).prev_sample
 
 # 确保输出目录存在
-output_dir = './generated_images/'+subject +'/'
+output_dir = './generated_images/'+subject +'_2/'
 os.makedirs(output_dir, exist_ok=True)
 
-# 确保生成的图像张量在合适的范围内
-def denormalize(image_tensor, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
-    """Denormalize a tensor using the given mean and std."""
-    mean = torch.tensor(mean).view(-1, 1, 1).to(image_tensor.device)
-    std = torch.tensor(std).view(-1, 1, 1).to(image_tensor.device)
-    return image_tensor * std + mean
+# # 确保生成的图像张量在合适的范围内
+# def denormalize(image_tensor, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
+#     """Denormalize a tensor using the given mean and std."""
+#     mean = torch.tensor(mean).view(-1, 1, 1).to(image_tensor.device)
+#     std = torch.tensor(std).view(-1, 1, 1).to(image_tensor.device)
+#     return image_tensor * std + mean
+#
+# # 使用 torchvision 的 save_image 函数保存生成的图像
+# for i in range(saved_noise.size(0)):
+#     print(i)
+#     img = saved_noise[i].cpu()  # 将图像数据移到CPU上
+#     img = img.squeeze(0)  # 单通道图像需要去掉通道维度
+#     img = denormalize(img)  # 反归一化
+#     print(img)
+#     print('===================')
+#     save_image(img, os.path.join(output_dir, f'generated_{i}_torchvision.png'), normalize=True)
 
-# 使用 torchvision 的 save_image 函数保存生成的图像
+# 定义反归一化函数
+def denormalize(image_tensor):
+    """假设原 transform 是 Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])"""
+    return image_tensor * 0.5 + 0.5  # 直接还原到 [0, 1]
+
+# 反归一化 & 保存图像
 for i in range(saved_noise.size(0)):
-    print(i)
-    img = saved_noise[i].cpu()  # 将图像数据移到CPU上
-    img = img.squeeze(0)  # 单通道图像需要去掉通道维度
-    img = denormalize(img)  # 反归一化
-    print(img)
-    print('===================')
-    save_image(img, os.path.join(output_dir, f'generated_{i}_torchvision.png'), normalize=True)
+    img = saved_noise[i].cpu()
+    img = denormalize(img)  # 回到 [0, 1]
+    img = torch.clamp(img, 0, 1)  # 确保不会溢出
+    save_image(img, os.path.join(output_dir, f'generated_{i}.png'))
