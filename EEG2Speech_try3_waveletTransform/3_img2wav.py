@@ -91,23 +91,25 @@ def invert_spectrogram(spectrogram):
 # file_names = [i for i in range(1, 55, 5)]
 # flag = [8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-file_names = [8,1,3,5,7,9,0,2,4,6,
-              8,8,1,3,5,7,9,0,2,4,
-              6,8,8,1,3,5,7,9,0,2,
-              4,6,8,8,1,3,5,7,9,0,
-              2,4,6,8,8,1,3,5,7,9,
-              0,2,4,6,8,8,1,3,5,7,
-              9]
+# file_names = [8,1,3,5,7,9,0,2,4,6,
+#               8,8,1,3,5,7,9,0,2,4,
+#               6,8,8,1,3,5,7,9,0,2,
+#               4,6,8,8,1,3,5,7,9,0,
+#               2,4,6,8,8,1,3,5,7,9,
+#               0,2,4,6,8,8,1,3,5,7,
+#               9]
 # [i for i in range(0, 605, 10)]
 # flag = [8, 0, 1, 2, 3, 4, 5, 6, 7, 9]
+
+file_names = [i for i in range(0, 61, 1)]
 
 index = 0
 for name in file_names:
     # print(name)
     # input_image = Image.open("./test_orignPic/B_" + str(name) + ".png")
 
-    # input_image = Image.open("./generated_images1/generated_" + str(index) + "_torchvision.png")
-    input_image = Image.open("./results/comparison_results/Recon_" + str(index) + "___.png")
+    input_image = Image.open("./generated_images1_1_3/generated_" + str(index) + ".png") # _torchvision
+    # input_image = Image.open("./results/1/Recon_" + str(index) + "___.png") # comparison_results/
 
     # print(str(name))
     # print(str(flag[index]))
@@ -116,10 +118,10 @@ for name in file_names:
     # input_image = input_image.resize((50, 50))
     # 转换为8位深度图像
     output_image = input_image.convert('L')
-    output_image.save("./results/comparison_results/Recon_"+str(index)+"_.png") # comparison_results/
+    output_image.save("./results/1_3/Recon_"+str(index)+"_.png") # comparison_results/
 
     # 加载图像文件并转换为数组
-    mel_img = mpimg.imread("./results/comparison_results/Recon_"+str(index)+"_.png")  # /comparison_results
+    mel_img = mpimg.imread("./results/1_3/Recon_"+str(index)+"_.png")  # /comparison_results
     mel_data = mel_img.astype(float)
 
     word = 'res_'
@@ -146,7 +148,7 @@ for name in file_names:
     wav1 = melspectrogram2wav(mel_spectrogram)
 
     # 最后，将音频波形写入到.wav文件
-    sf.write("./results/comparison_results/" + str(index) + "_.wav", wav1, sr)  # comparison_results/
+    sf.write("./results/1_3/" + str(index) + "_.wav", wav1, sr)  # comparison_results/
     index += 1
 
 
